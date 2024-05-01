@@ -1,1 +1,14 @@
+## DNS whitelisted urls
+tg-registration.envoy.rhapsody.health
+*.trustgrid.io
 
+## TrustGrid backplane
+35.171.100.16/28
+34.223.12.192/28
+## Rhapsody IPs 
+54.145.0.203
+18.209.2.1 
+18.217.122.18
+3.20.117.142
+
+#  Outbound access for all of the above on ports 443,8443
