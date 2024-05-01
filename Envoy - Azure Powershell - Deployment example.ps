@@ -1,0 +1,45 @@
+# Variables
+$subscriptionId = "11111111-2222-3333-4444-555555555555"   ## AZURE Customer ID
+$resourceGroupName = "RG1"   ## PRECREATED in Azure
+$location = "eastus"   ## preference in Azure
+$containerGroupName = "ContainerGroup1"    ## Autocreated
+$imageName = "rhapsodypocs/rhapsody7:sandbox-auto-02"     ## DO NOT CHANGE
+$vnetName = "VNet1"    ## PRECREATED in AZURE
+$subnetName = "Subnet1"  ## PRECREATED in AZURE
+$networkConfig = "rhapsody-default"   ## DO NOT CHANGE
+$apiKey = "..."   ### PROVIDED BY RHAPSODY TEAM
+
+# if it's the first time uzing the Azure PSModule, install it using
+# Install-Module -Name Az -Scope CurrentUser
+# Import-Module Az
+# Login to Azure (Uncomment if not already logged in)
+# Connect-AzAccount -Subscription $subscriptionId
+# if the callback fails, copy the url into a guest window on chrome and remove the s from https
+# if deploying into a private subnet, make sure to add the "Subnet Delegation for "Microsoft.ContainerInstnace/containerGroups"""
+
+## NOTE: Subnet must be configured for 'Subnet Delegation' to "Microsoft.ContainerInstance/containerGroups"
+$subnetResourceId = (Get-AzVirtualNetwork -Name $vnetName -ResourceGroupName $resourceGroupName).Subnets | Where-Object { $_.Name -eq $subnetName } | Select-Object -ExpandProperty Id
+
+# Environment Variables
+$envVars = @(
+    $(New-AzContainerInstanceEnvironmentVariableObject -Name "apiKey" -SecureValue (ConvertTo-SecureString -String $apiKey -AsPlainText -Force)),
+    $(New-AzContainerInstanceEnvironmentVariableObject -Name "nodeName" -Value $containerGroupName),
+    $(New-AzContainerInstanceEnvironmentVariableObject -Name "networkConfig" -Value $networkConfig)
+)
+
+# Port Configuration
+$ports = @(
+    $(New-AzContainerInstancePortObject -Port 22 -Protocol 'TCP'),
+    $(New-AzContainerInstancePortObject -Port 3041 -Protocol 'TCP'),
+    $(New-AzContainerInstancePortObject -Port 8444 -Protocol 'TCP'),
+    $(New-AzContainerInstancePortObject -Port 5401 -Protocol 'TCP')
+)
+
+$subnetResourceHash = @{
+    Id = $subnetResourceId
+    Name = $subnetName
+}
+
+# Create Container Group with a specific image, environment variables, and port configurations in a subnet
+$container = New-AzContainerInstanceObject -Name $containerGroupName -Image $imageName -RequestCpu 1 -RequestMemoryInGb 1.5 -Port $ports -EnvironmentVariable $envVars 
+New-AzContainerGroup -ResourceGroupName $resourceGroupName -SubscriptionId $subscriptionId -Name $containerGroupName -Container $container -OsType Linux -Location $location -SubnetId $subnetResourceHash
