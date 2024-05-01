@@ -4,4 +4,4 @@ $containerName = "customer-poc01" ##  Adjust for each node you wish to deploy - 
 $apiKey="-----"     ## Provided by Rhapsody team
 
 ##  Does a default mapping of ports  5100-5200 (Inbound to container for use in Comm Points/Listeners ) for access via the Container host
-docker run -p 3041:3041 -p 5104:5104 -p 8444:8444 -p 5100-5200:5100-5200 -p 8888:8888 -p 422:22 -e configName=$configName -e apiKey=$apiKey -e nodeName=$containerName -e networkConfig=$networkConfig --name $containerName $baseImageTag
+docker run -p 3041:3041 -p 5104:5104 -p 8444:8444 -p 5100-5200:5100-5200 -p 8888:8888 -p 422:22 -e configName=$configName -e apiKey=$apiKey -e nodeName=$containerName -e networkConfig=rhapsody-default --name $containerName $baseImageTag
