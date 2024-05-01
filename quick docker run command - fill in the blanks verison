@@ -1,3 +1,7 @@
 docker run -p 3041:3041 -p 5104:5104 -p 8444:8444 -p 5100-5200:5100-5200 -p 8888:8888 -p 422:22 \
--e configName=$configName -e apiKey=$apiKey -e nodeName=$containerName \
--e networkConfig=$networkConfig --name $containerName $baseImageTag
+-e configName=<configname> -e apiKey=<apikey> -e nodeName=<nodeName> \
+-e networkConfig=rhapsody-default --name <nodeName> rhapsodypocs/rhapsody7:sandbox-auto-02 
+
+## Replace <apikey> with the key provided by Rhapsody team
+## Replace <nodeName> with your own unique instance name : suggestion: <companyname>-<projectname>-dev/prod/test-01  (or similar)
+## Replace <configname> with your own "Template" name for the type of services intended for this deployment
