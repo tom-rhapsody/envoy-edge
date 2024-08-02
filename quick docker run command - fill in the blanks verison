@@ -1,4 +1,4 @@
-docker run -p 3041:3041 -p 5104:5104 -p 8444:8444 -p 5100-5200:5100-5200 -p 8888:8888 -p 422:22 -e configName=<configname> -e apiKey=<apikey> -e nodeName=<nodeName> -e networkConfig=rhapsody-default --name <nodeName> rhapsodypocs/rhapsody7:sandbox-auto-02 
+docker run -p 3041:3041 -p 5104:5104 -p 8444:8444 -p 5100-5200:5100-5200 -p 8888:8888 -p 422:22 -e configName=<configname> -e apiKey=<apikey> -e nodeName=<nodeName> -e networkConfig=rhapsody-default --name <nodeName> rhapsodypocs/rhapsody7:sandbox-auto-04 
 
 ## This default port maps 5100-5200 ports for use in Interface/communication point listeners as needed
 ## Replace <apikey> with the key provided by Rhapsody team
