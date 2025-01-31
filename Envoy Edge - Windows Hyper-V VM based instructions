@@ -1,0 +1,22 @@
+*** Simple Standup
+To get started, we'll need to enable Hyper-V and reboot the host:  (needs to happen on both nodes)
+(Run in Powershell as an Administrator)
+ 
+```
+Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
+```
+ 
+Once the host reboots, run the following line:
+ 
+```
+Set-ExecutionPolicy Bypass -Force
+```
+ 
+From there, download (this script)[https://drive.google.com/file/d/1yXnkMZB8zug1Uu0Z7Si-SQj0DgCIkPjH/view?usp=sharing] and run as follows:
+
+On the node: 
+```
+& '.\Download and Run.ps1' -apiKey "<your Rhapsody api-key>" -nodeName "<your node name>" -engineName "<your node name>"
+```
+
+where `<your node name>` is less than 40 characters long and contains only lower-case letters, numbers, and dashes.
